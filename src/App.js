@@ -71,18 +71,26 @@ function Application() {
   const nextStep = () => {
     if (step === 4 && subStep < additionalQuestions.length - 1) {
       setSubStep(subStep + 1);
-    } else if (step === 5 && subStep < qualificationQuestions.length - 1) {
+    } else if (step === 5 && subStep < backendQuestions.length - 1) {
+      setSubStep(subStep + 1);
+    } else if (step === 6 && subStep < frontendQuestions.length - 1) {
+      setSubStep(subStep + 1);
+    } else if (step === 7 && subStep < qualificationQuestions.length - 1) {
       setSubStep(subStep + 1);
     } else {
       setStep(step + 1);
       setSubStep(0);
     }
   };
-
+  
   const prevStep = () => {
     if (step === 4 && subStep > 0) {
       setSubStep(subStep - 1);
     } else if (step === 5 && subStep > 0) {
+      setSubStep(subStep - 1);
+    } else if (step === 6 && subStep > 0) {
+      setSubStep(subStep - 1);
+    } else if (step === 7 && subStep > 0) {
       setSubStep(subStep - 1);
     } else if (step > 1) {
       setStep(step - 1);
@@ -279,6 +287,73 @@ function Application() {
       required: false
     }
   ];
+  const backendQuestions = [
+    {
+      question: "Cilat janë teknologjitë që përdorni për zhvillimin e backend? (Node.js, Express, Django, etj.)",
+      name: "backendTechnologies",
+      type: "text",
+      required: true
+    },
+    {
+      question: "Çfarë është një API RESTful dhe si mund ta implementoni këtë në një projekt?",
+      name: "restApiImplementation",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Si menaxhoni autentifikimin dhe autorizimin në backend? Përdorni JWT, OAuth, ose diçka tjetër?",
+      name: "authAndAuthorization",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Si mund të optimizoni performancën e bazës së të dhënave në një aplikacion backend?",
+      name: "dbPerformanceOptimization",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Çfarë është një microservice dhe si mund ta implementoni këtë në një projekt?",
+      name: "microservicesImplementation",
+      type: "textarea",
+      required: false
+    }
+  ];
+
+  const frontendQuestions = [
+    {
+      question: "Cilat janë teknologjitë që përdorni për zhvillimin e aplikacioneve frontend? (React, Vue, Angular, etj.)",
+      name: "frontendTechnologies",
+      type: "text",
+      required: true
+    },
+    {
+      question: "Si do të optimizoni performancën e një aplikacioni React?",
+      name: "reactOptimization",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Si implementoni dizajnin responsiv në një aplikacion frontend?",
+      name: "responsiveDesign",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Si do të menaxhoni state-në në React? Çfarë librarish keni përdorur për këtë qëllim?",
+      name: "reactStateManagement",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Çfarë është Virtual DOM dhe si ndihmon në performancën e React?",
+      name: "virtualDOMExplanation",
+      type: "textarea",
+      required: false
+    }
+  ];
+  
+  
 
   const renderQuestion = (q) => {
     switch (q.type) {
@@ -389,7 +464,7 @@ function Application() {
           
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
-              {[1, 2, 3, 4, 5].map((stepNumber) => (
+              {[1, 2, 3, 4, 5, 6, 7].map((stepNumber) => (
                 <div key={stepNumber} className="flex flex-col items-center">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center 
                     ${step >= stepNumber ? 'bg-white text-indigo-600 font-bold' : 'bg-indigo-400 text-white'}`}>
@@ -405,6 +480,8 @@ function Application() {
             </div>
           </div>
         </div>
+
+      
 
         <div className="p-8">
           {step === 1 && (
@@ -579,8 +656,75 @@ function Application() {
               </div>
             </form>
           )}
+            {step === 5 && (
+            <form className="space-y-6">
+              <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">
+               Backend  ({subStep + 1}/{backendQuestions .length})
+              </h2>
+              
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <label className="block text-lg font-medium text-gray-700 mb-3">
+                  {backendQuestions [subStep].question}
+                  {backendQuestions [subStep].required && <span className="text-red-500">*</span>}
+                </label>
+                {renderQuestion(backendQuestions [subStep])}
+              </div>
 
-          {step === 5 && (
+              <div className="flex justify-between pt-6">
+                <button 
+                  type="button"
+                  onClick={prevStep}
+                  disabled={step === 4 && subStep === 0}
+                  className={`px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition duration-200 ${step === 4 && subStep === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  Kthehu
+                </button>
+                <button 
+                  type="button"
+                  onClick={nextStep}
+                  className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-200"
+                >
+                  {subStep === backendQuestions.length - 1 ? 'Vazhdo' : 'Tjetra'}
+                </button>
+              </div>
+            </form>
+          )}
+             {step === 6 && (
+            <form className="space-y-6">
+              <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">
+               FrontEnd  ({subStep + 1}/{frontendQuestions  .length})
+              </h2>
+              
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <label className="block text-lg font-medium text-gray-700 mb-3">
+                  {frontendQuestions  [subStep].question}
+                  {frontendQuestions  [subStep].required && <span className="text-red-500">*</span>}
+                </label>
+                {renderQuestion(frontendQuestions  [subStep])}
+              </div>
+
+              <div className="flex justify-between pt-6">
+                <button 
+                  type="button"
+                  onClick={prevStep}
+                  disabled={step === 4 && subStep === 0}
+                  className={`px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition duration-200 ${step === 4 && subStep === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  Kthehu
+                </button>
+                <button 
+                  type="button"
+                  onClick={nextStep}
+                  className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-200"
+                >
+                  {subStep === qualificationQuestions .length - 1 ? 'Vazhdo' : 'Tjetra'}
+                </button>
+              </div>
+            </form>
+          )}
+
+
+          {step === 7 && (
             <form className="space-y-6" onSubmit={handleSubmit}>
               <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">
                 Kualifikimet dhe aftësitë tuaja ({subStep + 1}/{qualificationQuestions.length})
@@ -686,6 +830,8 @@ function Application() {
             </form>
           )}
         </div>
+
+      
       </div>
     </div>
   );
