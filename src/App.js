@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 function Application() {
   const [step, setStep] = useState(1);
+  const [subStep, setSubStep] = useState(0);
   const [formData, setFormData] = useState({
     position: '',
     firstName: '',
@@ -16,6 +17,10 @@ function Application() {
     nextJobExpectations: '',
     professionalDevelopment: '',
     whatMotivatesYou: '',
+    workExperience: '',
+    educationLevel: '',
+    salaryExpectations: '',
+    availability: '',
     languages: {},
     taskManagement: 0,
     digitalCompetence: false,
@@ -24,7 +29,23 @@ function Application() {
     superpower: '',
     weakness: '',
     futureOpportunities: false,
-    documents: null
+    documentsVerified: false,
+    documents: null,
+    teamPreference: '',
+    greatestAchievement: '',
+    stressManagement: '',
+    communicationStyle: '',
+    expectationsHandling: '',
+    professionalMistake: '',
+    successFeeling: '',
+    creativeProject: '',
+    shortLongTermBalance: '',
+    uncertaintyReaction: '',
+    internationalTeamChallenge: '',
+    detailOrBigPicture: '',
+    changeIndustry: '',
+    workValues: '',
+    conflictResolution: ''
   });
 
   const handleChange = (e) => {
@@ -47,13 +68,312 @@ function Application() {
     }));
   };
 
-  const nextStep = () => setStep(step + 1);
-  const prevStep = () => setStep(step - 1);
+  const nextStep = () => {
+    if (step === 4 && subStep < additionalQuestions.length - 1) {
+      setSubStep(subStep + 1);
+    } else if (step === 5 && subStep < qualificationQuestions.length - 1) {
+      setSubStep(subStep + 1);
+    } else {
+      setStep(step + 1);
+      setSubStep(0);
+    }
+  };
+
+  const prevStep = () => {
+    if (step === 4 && subStep > 0) {
+      setSubStep(subStep - 1);
+    } else if (step === 5 && subStep > 0) {
+      setSubStep(subStep - 1);
+    } else if (step > 1) {
+      setStep(step - 1);
+      setSubStep(0);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
     alert('Aplikimi u dërgua me sukses!');
+  };
+
+  const additionalQuestions = [
+    {
+      question: "A jeni aktualisht në një kontratë pune të rregullt?*",
+      name: "currentContract",
+      type: "select",
+      options: ["Po", "Jo", "Kontratë e përkohshme", "Freelancer", "Student"],
+      required: true
+    },
+    // {
+    //   question: "Çfarë periudhe njoftimi keni në punën tuaj aktuale?",
+    //   name: "noticePeriod",
+    //   type: "text",
+    //   placeholder: "P.sh. 2 javë, 1 muaj...",
+    //   required: false
+    // },
+    {
+      question: "Përshkruani përvojën tuaj të punës (vite dhe pozicione)*",
+      name: "workExperience",
+      type: "textarea",
+      required: true
+    },
+    {
+      question: "Niveli i arsimimit*",
+      name: "educationLevel",
+      type: "select",
+      options: ["Shkollë e mesme", "Bachelor", "Master", "PhD", "Tjetër"],
+      required: true
+    },
+    {
+      question: "Pritjet tuaja për rrogën (në EUR)*",
+      name: "salaryExpectations",
+      type: "text",
+      required: true
+    },
+    {
+      question: "Kur jeni i disponueshëm për të filluar punën?*",
+      name: "availability",
+      type: "text",
+      required: true
+    },
+    {
+      question: "Çfarë ju motivoi të aplikoni në këtë kompani?*",
+      name: "motivation",
+      type: "textarea",
+      required: true
+    },
+    {
+      question: "Çfarë kërkoni në punën tuaj të ardhshme?",
+      name: "nextJobExpectations",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Sa i rëndësishëm është për ju zhvillimi i vazhdueshëm në profesionin tuaj?",
+      name: "professionalDevelopment",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Çfarë ju motivon?",
+      name: "whatMotivatesYou",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "A preferoni të punoni më shumë në ekip apo individualisht? Pse?",
+      name: "teamPreference",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Cili është suksesi juaj më i madh profesional deri më tani?",
+      name: "greatestAchievement",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Si e menaxhoni stresin gjatë situatave të vështira në punë?",
+      name: "stressManagement",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Si e përshkruani stilin tuaj të komunikimit profesional?",
+      name: "communicationStyle",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Çfarë presin të tjerët nga ju në punë dhe si i përmbushni këto pritshmëri?",
+      name: "expectationsHandling",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Cili është gabimi më i madh profesional që keni bërë dhe çfarë mësuat prej tij?",
+      name: "professionalMistake",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Çfarë ju bën të ndiheni të suksesshëm në fund të një dite pune?",
+      name: "successFeeling",
+      type: "textarea",
+      required: false
+    }
+  ];
+
+  const qualificationQuestions = [
+    {
+      question: "Menaxhimi i detyrave (vlerësoni me yje 1-5)*",
+      name: "taskManagement",
+      type: "stars",
+      required: true
+    },
+    {
+      question: "Cila është superfuqia juaj?",
+      name: "superpower",
+      type: "text",
+      required: false
+    },
+    {
+      question: "Cila është kriptoniti/dobësia juaj?",
+      name: "weakness",
+      type: "text",
+      required: false
+    },
+    {
+      question: "Cilën nga gjuhët në vijim flisni, ju lutemi zgjidhni dhe vlerësoni nivelin tuaj:",
+      name: "languages",
+      type: "languages",
+      options: ["Anglisht", "Shqip", "Gjermanisht", "Frengjisht", "Italisht"],
+      required: false
+    },
+    {
+      question: "A jeni më shumë person i orientuar drejt detajeve apo pamjes së përgjithshme? Jepni një shembull.",
+      name: "detailOrBigPicture",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Nëse do të mund të ndryshonit një gjë në industrinë tuaj, cila do të ishte ajo?",
+      name: "changeIndustry",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Cilat janë tri vlera personale që i konsideroni të rëndësishme në një vend pune?",
+      name: "workValues",
+      type: "text",
+      required: false
+    },
+    {
+      question: "Nëse një koleg nuk po përmbush detyrat e tij, si do të vepronit?",
+      name: "conflictResolution",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Cili është një projekt kreativ ku keni kontribuar dhe si ishte roli juaj?",
+      name: "creativeProject",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Si i balanconi detyrat afatshkurtra me qëllimet afatgjata?",
+      name: "shortLongTermBalance",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Si reagon kur përballesh me një situatë ku nuk ke informacion të mjaftueshëm?",
+      name: "uncertaintyReaction",
+      type: "textarea",
+      required: false
+    },
+    {
+      question: "Nëse do të punonit në një ekip ndërkombëtar, cilat do të ishin sfidat dhe si do t’i përballonit?",
+      name: "internationalTeamChallenge",
+      type: "textarea",
+      required: false
+    }
+  ];
+
+  const renderQuestion = (q) => {
+    switch (q.type) {
+      case "select":
+        return (
+          <select
+            name={q.name}
+            value={formData[q.name]}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            required={q.required}
+          >
+            <option value="">Zgjidhni...</option>
+            {q.options.map(option => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </select>
+        );
+      case "textarea":
+        return (
+          <textarea
+            name={q.name}
+            value={formData[q.name]}
+            onChange={handleChange}
+            rows={4}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            required={q.required}
+            placeholder={q.placeholder || ''}
+          />
+        );
+      case "checkbox":
+        return (
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id={q.name}
+              name={q.name}
+              checked={formData[q.name]}
+              onChange={handleChange}
+              className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            />
+            <label htmlFor={q.name} className="ml-2 block text-sm text-gray-700">
+              {formData[q.name] ? "Po" : "Jo"}
+            </label>
+          </div>
+        );
+      case "stars":
+        return (
+          <div className="flex justify-center">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, [q.name]: star }))}
+                className="text-3xl mx-1 focus:outline-none"
+              >
+                {star <= formData[q.name] ? '★' : '☆'}
+              </button>
+            ))}
+          </div>
+        );
+      case "languages":
+        return (
+          <div className="grid gap-4 mt-4">
+            {q.options.map((lang) => (
+              <div key={lang} className="flex items-center justify-between bg-white p-3 rounded-lg border border-gray-200">
+                <span className="w-1/4 font-medium">{lang}</span>
+                <select
+                  onChange={(e) => handleLanguageChange(lang, e.target.value)}
+                  value={formData.languages[lang] || ''}
+                  className="w-3/4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  <option value="">Zgjidhni nivelin</option>
+                  <option value="fillestar">Fillestar</option>
+                  <option value="mesatar">Mesatar</option>
+                  <option value="i avancuar">I avancuar</option>
+                  <option value="amilindje">Amilindje</option>
+                </select>
+              </div>
+            ))}
+          </div>
+        );
+      default:
+        return (
+          <input
+            type={q.type || "text"}
+            name={q.name}
+            value={formData[q.name]}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            required={q.required}
+            placeholder={q.placeholder || ''}
+          />
+        );
+    }
   };
 
   return (
@@ -81,7 +401,7 @@ function Application() {
             </div>
             <div className="w-full bg-indigo-400 rounded-full h-2.5">
               <div className="bg-white h-2.5 rounded-full" 
-                   style={{ width: `${(step / 5) * 100}%` }}></div>
+                   style={{ width: `${((step-1)*20 + (step === 4 ? (subStep/additionalQuestions.length)*20 : step === 5 ? (subStep/qualificationQuestions.length)*20 : 0))}%` }}></div>
             </div>
           </div>
         </div>
@@ -228,133 +548,33 @@ function Application() {
 
           {step === 4 && (
             <form className="space-y-6">
-              <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">Informacion shtesë</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">
+                Informacion shtesë ({subStep + 1}/{additionalQuestions.length})
+              </h2>
               
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  A jeni aktualisht në një kontratë pune të rregullt?*
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <label className="block text-lg font-medium text-gray-700 mb-3">
+                  {additionalQuestions[subStep].question}
+                  {additionalQuestions[subStep].required && <span className="text-red-500">*</span>}
                 </label>
-                <select
-                  name="currentContract"
-                  value={formData.currentContract}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  required
-                >
-                  <option value="">Zgjidhni...</option>
-                  <option value="Po">Po</option>
-                  <option value="Jo">Jo</option>
-                  <option value="Kontratë e përkohshme">Kontratë e përkohshme</option>
-                  <option value="Freelancer">Freelancer</option>
-                </select>
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Çfarë periudhe njoftimi keni në punën tuaj aktuale?
-                </label>
-                <input
-                  type="text"
-                  name="noticePeriod"
-                  value={formData.noticePeriod}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="P.sh. 2 javë, 1 muaj..."
-                />
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Çfarë ju motivoi të aplikoni në këtë kompani?
-                </label>
-                <textarea
-                  name="motivation"
-                  value={formData.motivation}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Shkruani përse dëshironi të punoni me ne..."
-                />
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Çfarë kërkoni në punën tuaj të ardhshme?
-                </label>
-                <textarea
-                  name="nextJobExpectations"
-                  value={formData.nextJobExpectations}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Përshkruani çfarë prisni nga puna e ardhshme..."
-                />
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Sa i rëndësishëm është për ju zhvillimi i vazhdueshëm në profesionin tuaj?
-                </label>
-                <textarea
-                  name="professionalDevelopment"
-                  value={formData.professionalDevelopment}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Shpjegoni rëndësinë e zhvillimit profesional për ju..."
-                />
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Çfarë ju motivon?
-                </label>
-                <textarea
-                  name="whatMotivatesYou"
-                  value={formData.whatMotivatesYou}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Përshkruani cilët faktorë ju motivojnë në punë..."
-                />
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Cilën nga gjuhët në vijim flisni, ju lutemi zgjidhni dhe vlerësoni nivelin tuaj:
-                </label>
-                <div className="grid gap-4 mt-4">
-                  {['Anglisht', 'Shqip', 'Gjermanisht', 'Frengjisht', 'Italisht'].map((lang) => (
-                    <div key={lang} className="flex items-center justify-between bg-white p-3 rounded-lg border border-gray-200">
-                      <span className="w-1/4 font-medium">{lang}</span>
-                      <select
-                        onChange={(e) => handleLanguageChange(lang, e.target.value)}
-                        value={formData.languages[lang] || ''}
-                        className="w-3/4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                      >
-                        <option value="">Zgjidhni nivelin</option>
-                        <option value="fillestar">Fillestar</option>
-                        <option value="mesatar">Mesatar</option>
-                        <option value="i avancuar">I avancuar</option>
-                        <option value="amilindje">Amilindje</option>
-                      </select>
-                    </div>
-                  ))}
-                </div>
+                {renderQuestion(additionalQuestions[subStep])}
               </div>
 
               <div className="flex justify-between pt-6">
                 <button 
+                  type="button"
                   onClick={prevStep}
-                  className="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition duration-200"
+                  disabled={step === 4 && subStep === 0}
+                  className={`px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition duration-200 ${step === 4 && subStep === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   Kthehu
                 </button>
                 <button 
+                  type="button"
                   onClick={nextStep}
                   className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-200"
                 >
-                  Vazhdo
+                  {subStep === additionalQuestions.length - 1 ? 'Vazhdo' : 'Tjetra'}
                 </button>
               </div>
             </form>
@@ -362,180 +582,106 @@ function Application() {
 
           {step === 5 && (
             <form className="space-y-6" onSubmit={handleSubmit}>
-              <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">Kualifikimet dhe aftësitë tuaja</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">
+                Kualifikimet dhe aftësitë tuaja ({subStep + 1}/{qualificationQuestions.length})
+              </h2>
               
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Menaxhimi i detyrave (vlerësoni me yje)
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <label className="block text-lg font-medium text-gray-700 mb-3">
+                  {qualificationQuestions[subStep].question}
+                  {qualificationQuestions[subStep].required && <span className="text-red-500">*</span>}
                 </label>
-                <div className="flex justify-center">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setFormData(prev => ({ ...prev, taskManagement: star }))}
-                      className="text-3xl mx-1 focus:outline-none"
-                    >
-                      {star <= formData.taskManagement ? '★' : '☆'}
-                    </button>
-                  ))}
-                </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>Dobët</span>
-                  <span>Shkëlqyeshëm</span>
-                </div>
+                {renderQuestion(qualificationQuestions[subStep])}
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h3 className="block text-sm font-medium text-gray-700 mb-3">Aftësitë tuaja:</h3>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center bg-white p-3 rounded-lg border border-gray-200">
-                    <input
-                      type="checkbox"
-                      id="digitalCompetence"
-                      name="digitalCompetence"
-                      checked={formData.digitalCompetence}
-                      onChange={handleChange}
-                      className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="digitalCompetence" className="ml-3 block text-sm text-gray-700">
-                      Kompetenca dixhitale
-                    </label>
-                  </div>
-
-                  <div className="flex items-center bg-white p-3 rounded-lg border border-gray-200">
-                    <input
-                      type="checkbox"
-                      id="marketingStudies"
-                      name="marketingStudies"
-                      checked={formData.marketingStudies}
-                      onChange={handleChange}
-                      className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="marketingStudies" className="ml-3 block text-sm text-gray-700">
-                      Studime në Marketing
-                    </label>
-                  </div>
-
-                  <div className="flex items-center bg-white p-3 rounded-lg border border-gray-200">
-                    <input
-                      type="checkbox"
-                      id="graphicSkills"
-                      name="graphicSkills"
-                      checked={formData.graphicSkills}
-                      onChange={handleChange}
-                      className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="graphicSkills" className="ml-3 block text-sm text-gray-700">
-                      Aftësitë grafike
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Cila është superfuqia juaj?
-                </label>
-                <input
-                  type="text"
-                  name="superpower"
-                  value={formData.superpower}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Përshkruani cilën aftësi e konsideroni si forcën tuaj më të madhe..."
-                />
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Cila është kriptoniti/dobësia juaj?
-                </label>
-                <input
-                  type="text"
-                  name="weakness"
-                  value={formData.weakness}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Përshkruani cilën zonë mendoni se duhet të përmirësoni..."
-                />
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      type="checkbox"
-                      id="futureOpportunities"
-                      name="futureOpportunities"
-                      checked={formData.futureOpportunities}
-                      onChange={handleChange}
-                      className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                  </div>
-                  <label htmlFor="futureOpportunities" className="ml-3 block text-sm text-gray-700">
-                    Kompania mund të më informojë për mundësitë e ardhshme të punësimit deri në 1 vit.
+              {subStep === qualificationQuestions.length - 1 && (
+                <div className="bg-gray-50 p-6 rounded-lg mt-6">
+                  <label className="block text-lg font-medium text-gray-700 mb-3">
+                    Ngarkoni dokumentet tuaja (CV, letër motivuese, certifikime)*
                   </label>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Ngarkoni dokumentet tuaja (CV, letër motivuese, certifikime)
-                </label>
-                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
-                    <svg
-                      className="mx-auto h-12 w-12 text-gray-400"
-                      stroke="currentColor"
-                      fill="none"
-                      viewBox="0 0 48 48"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <div className="flex text-sm text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                    <div className="space-y-1 text-center">
+                      <svg
+                        className="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
                       >
-                        <span>Ngarko një skedar</span>
-                        <input
-                          id="file-upload"
-                          name="documents"
-                          type="file"
-                          onChange={handleChange}
-                          multiple
-                          className="sr-only"
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
-                      </label>
-                      <p className="pl-1">ose lëvizni dhe lini këtu</p>
+                      </svg>
+                      <div className="flex text-sm text-gray-600">
+                        <label
+                          htmlFor="file-upload"
+                          className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                        >
+                          <span>Ngarko një skedar</span>
+                          <input
+                            id="file-upload"
+                            name="documents"
+                            type="file"
+                            onChange={handleChange}
+                            multiple
+                            className="sr-only"
+                            required
+                          />
+                        </label>
+                        <p className="pl-1">ose lëvizni dhe lini këtu</p>
+                      </div>
+                      <p className="text-xs text-gray-500">PDF, DOC, DOCX deri në 10MB</p>
                     </div>
-                    <p className="text-xs text-gray-500">PDF, DOC, DOCX deri në 10MB</p>
+                  </div>
+
+                  <div className="mt-4 flex items-start">
+                    <div className="flex items-center h-5">
+                      <input
+                        type="checkbox"
+                        id="documentsVerified"
+                        name="documentsVerified"
+                        checked={formData.documentsVerified}
+                        onChange={handleChange}
+                        className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                        required
+                      />
+                    </div>
+                    <label htmlFor="documentsVerified" className="ml-3 block text-sm text-gray-700">
+                      Konfirmoj që të gjitha dokumentet e ngarkuara janë të sakta dhe të plota*
+                    </label>
                   </div>
                 </div>
-              </div>
+              )}
 
               <div className="flex justify-between pt-6">
                 <button 
-                  onClick={prevStep}
                   type="button"
-                  className="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition duration-200"
+                  onClick={prevStep}
+                  disabled={step === 5 && subStep === 0}
+                  className={`px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition duration-200 ${step === 5 && subStep === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   Kthehu
                 </button>
-                <button 
-                  type="submit"
-                  className="px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg"
-                >
-                  Dërgo Aplikimin
-                </button>
+                {subStep === qualificationQuestions.length - 1 ? (
+                  <button 
+                    type="submit"
+                    disabled={!formData.documentsVerified}
+                    className={`px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg ${!formData.documentsVerified ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    Dërgo Aplikimin
+                  </button>
+                ) : (
+                  <button 
+                    type="button"
+                    onClick={nextStep}
+                    className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-200"
+                  >
+                    Tjetra
+                  </button>
+                )}
               </div>
             </form>
           )}
