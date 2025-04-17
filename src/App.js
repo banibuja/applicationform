@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function Application() {
   const [step, setStep] = useState(1);
   const [subStep, setSubStep] = useState(0);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     position: '',
     firstName: '',
@@ -101,7 +102,7 @@ function Application() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    alert('Aplikimi u dërgua me sukses!');
+    setIsSubmitted(true);
   };
 
   const additionalQuestions = [
@@ -789,7 +790,7 @@ function Application() {
                             onChange={handleChange}
                             multiple
                             className="sr-only"
-                            required
+                            
                           />
                         </label>
                         <p className="pl-1">ose lëvizni dhe lini këtu</p>
@@ -807,7 +808,7 @@ function Application() {
                         checked={formData.documentsVerified}
                         onChange={handleChange}
                         className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                        required
+                        
                       />
                     </div>
                     <label htmlFor="documentsVerified" className="ml-3 block text-sm text-gray-700">
@@ -846,6 +847,27 @@ function Application() {
               </div>
             </form>
           )}
+{isSubmitted && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-2xl w-full">
+      <h2 className="text-2xl font-bold mb-4 dark:text-white">Faleminderit!</h2>
+      <p className="dark:text-gray-300">
+        Aplikimi juaj për pozitën <strong>Full Stack Developer</strong> është dorëzuar me sukses.
+      </p>
+
+      <button
+        onClick={() => {
+          setIsSubmitted(false);
+        }}
+        className="mt-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-lg hover:opacity-90 transition"
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
+
+
         </div>
 
       
