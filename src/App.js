@@ -145,6 +145,13 @@ function Application() {
       required: true
     },
     {
+      question: "Nëse do t’ju duhej të punonit jashtë orarit, a do të ishit dakord?*",
+      name: "overtimeAgreement",
+      type: "select",
+      options: ["Po", "Jo", "Varet nga situata"],
+      required: true
+    },
+    {
       question: "Çfarë ju motivoi të aplikoni në këtë kompani?*",
       name: "motivation",
       type: "textarea",
@@ -452,15 +459,15 @@ function Application() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-        {/* Header with progress */}
-        <div className="bg-indigo-600 px-8 py-6">
-          <h1 className="text-3xl font-bold text-center text-white mb-2">
-            {step === 1 ? 'A jeni gati të vazhdoni aplikimin?' : 
-             step === 2 ? 'Zgjidhni Pozicionin' : 
-             'Formulari i Aplikimit'}
-          </h1>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-3xl">
+      {/* Header with progress */}
+      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-8">
+        <h1 className="text-4xl font-extrabold text-center text-white mb-4 tracking-tight">
+          {step === 1 ? 'Aplikoni për Punë' : 
+           step === 2 ? 'Zgjidhni Pozicionin' : 
+           'Formulari i Aplikimit'}
+        </h1>
           
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
@@ -485,21 +492,27 @@ function Application() {
 
         <div className="p-8">
           {step === 1 && (
-            <div className="text-center">
-              <p className="mb-8 text-lg text-gray-600">Filloni procesin e aplikimit</p>
+            <div className="text-center animate-fade-in">
+              <div className="mx-auto w-32 h-32 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+                <svg className="w-16 h-16 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold text-gray-800 mb-4">Mirë se vini në procesin e aplikimit</h2>
+              <p className="mb-8 text-lg text-gray-600 max-w-md mx-auto">Ne jemi të entuziazmuar për interesin tuaj për të bashkëpunuar me ne. Ky proces do të zgjasë vetëm disa minuta.</p>
               <button 
                 onClick={nextStep}
-                className="px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg"
+                className="px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                Fillo
+                Filloni Aplikimin
               </button>
             </div>
           )}
 
-          {step === 2 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-semibold text-gray-800 text-center mb-6">Zgjidhni pozicionin e dëshiruar</h2>
-              <div className="grid gap-6 md:grid-cols-3">
+{step === 2 && (
+            <div className="space-y-8 animate-fade-in">
+              <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Për cilin pozicion dëshironi të aplikoni?</h2>
+              <div className="grid gap-8 md:grid-cols-3">
                 {['Full Stack Developer', 'Backend Developer', 'FrontEnd Developer'].map((position) => (
                   <div 
                     key={position}
@@ -507,25 +520,29 @@ function Application() {
                       setFormData(prev => ({ ...prev, position }));
                       nextStep();
                     }}
-                    className={`p-6 border-2 rounded-xl cursor-pointer transition duration-200 transform hover:scale-105
-                      ${formData.position === position ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:border-indigo-300'}`}
+                    className={`p-8 border-2 rounded-2xl cursor-pointer transition-all duration-300 transform hover:scale-105 flex flex-col items-center
+                      ${formData.position === position ? 
+                        'border-indigo-500 bg-indigo-50 shadow-md' : 
+                        'border-gray-200 hover:border-indigo-300 bg-white'}`}
                   >
-                    <div className="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    <div className="bg-gradient-to-br from-indigo-100 to-purple-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                      <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                       </svg>
                     </div>
-                    <h3 className="font-medium text-lg text-center">{position}</h3>
-                    <p className="text-gray-600 mt-2 text-center text-sm">Klikoni për të zgjedhur këtë pozicion</p>
+                    <h3 className="font-bold text-xl text-center text-gray-800 mb-2">{position}</h3>
+                    <p className="text-gray-600 text-center text-sm">Klikoni për të zgjedhur</p>
                   </div>
                 ))}
               </div>
-              <button 
-                onClick={prevStep}
-                className="mt-6 px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition duration-200"
-              >
-                Kthehu
-              </button>
+              <div className="pt-6">
+                <button 
+                  onClick={prevStep}
+                  className="px-8 py-3 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-all duration-300"
+                >
+                  Kthehu
+                </button>
+              </div>
             </div>
           )}
 
